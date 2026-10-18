@@ -1,0 +1,10 @@
+# Large raw dataset
+car_sales_2018_2024_enhanced.csv
+data/car_sales_2018_2024_enhanced.csv
+
+# Temporary / backup files
+*.tmp
+*.bak
+
+# Power BI temporary files
+*.pbix.lock
