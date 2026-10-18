@@ -26,6 +26,17 @@ Key fields include:
 - Commission
 - Sales Region
 
+### Data Source
+
+Dataset: **USA Car Sales Dataset 2018–2024**  
+Source: [Kaggle – USA Car Sales Dataset 2018–2024](https://www.kaggle.com/datasets/anjaliprajapati307/usa-car-sales-dataset-2018-2024)
+
+### Data Limitations
+
+- The original dataset contains inconsistencies between the `Date` field and the provided `Sale Year` field. Time-based analysis in this project therefore uses the `Date` field through `Dim_calendar`.
+- The dataset does not provide a native customer ID. A surrogate `Customer_ID` was created from available customer attributes for analysis purposes.
+- Some transactions contain unusually high sale prices, costs, or negative profits and should be treated as potential outliers.
+
 ## Data Model
 
 The Power BI report uses a Star Schema with one central fact table and multiple dimension tables.
@@ -100,14 +111,63 @@ Key analysis includes:
 - Data Visualization
 - Git & GitHub
 
+## Key Measures & DAX
+
+Some of the main DAX measures used in this project include:
+
+### Total Sales
+```DAX
+Total Sales =
+SUM(Fact_Sales[Quantity])
+```
+
+### Total Revenue
+```DAX
+Total Revenue =
+SUMX(
+    Fact_Sales,
+    Fact_Sales[Quantity] * Fact_Sales[Sale Price]
+)
+```
+
+### Average Sale Price
+```DAX
+Average Sale Price =
+AVERAGE(Fact_Sales[Sale Price])
+```
+
+### Total Profit
+```DAX
+Total Profit =
+SUM(Fact_Sales[Profit])
+```
+
+### Profit Margin
+```DAX
+Profit Margin =
+DIVIDE(
+    [Total Profit],
+    [Total Revenue],
+    0
+)
+```
+
+### Total Customers
+```DAX
+Total Customers =
+DISTINCTCOUNT(Fact_Sales[Customer_ID])
+```
+
 ## Key Insights
 
-- Approximately 2 million vehicles were sold during the analyzed period.
-- Total revenue reached approximately $198.72 billion.
-- Total profit was approximately $13.97 billion.
-- Mercedes generated the highest revenue among the analyzed car brands.
-- Cash, Lease, and Loan payment methods showed a relatively balanced distribution.
-- Sales remained relatively stable from 2018 to 2024, with the highest level recorded in 2024.
+- More than **2 million vehicles** were sold across the analyzed period.
+- Total revenue reached approximately **$198.72 billion**.
+- Total profit reached approximately **$13.97 billion**.
+- **Mercedes** generated the highest revenue among the analyzed car brands.
+- Customer purchases were concentrated primarily in the **26–45 age groups**.
+- Cash, Lease, and Loan represented the major payment methods, with a relatively balanced distribution.
+- Sales performance remained relatively stable across the analyzed period, with **2024 recording the highest sales volume**.
+- The analysis also identified potential outliers in transaction prices, costs, and profitability that should be considered when interpreting financial KPIs.
 
 ## Project Structure
 
